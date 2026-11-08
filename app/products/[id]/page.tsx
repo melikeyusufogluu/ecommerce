@@ -1,16 +1,13 @@
+import { Suspense } from "react";
 import NotFoundPage from "@/app/not-found";
-import { products } from "@/app/product-data";
-import Image from "next/image";
 
-const ProductsDetailPage = async ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
+async function ProductDetails({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const product = products.find((product) => product.id === id);
+  const response = await fetch(`http://localhost:3000/api/products/${id}`);
 
-  if (!product) return <NotFoundPage />;
+  if (!response.ok) return <NotFoundPage />;
+
+  const product = await response.json();
 
   return (
     <div className="container mx-auto p-8 flex flex-col md:flex-row">
@@ -28,6 +25,20 @@ const ProductsDetailPage = async ({
         <p className="text-gray-700">{product.description}</p>
       </div>
     </div>
+  );
+}
+
+const ProductsDetailPage = ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  return (
+    <Suspense
+      fallback={<p className="container mx-auto p-8">Loading product...</p>}
+    >
+      <ProductDetails params={params} />
+    </Suspense>
   );
 };
 
