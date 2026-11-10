@@ -3,7 +3,9 @@ import NotFoundPage from "@/app/not-found";
 
 async function ProductDetails({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const response = await fetch(`http://localhost:3000/api/products/${id}`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/products/${id}`,
+  );
 
   if (!response.ok) return <NotFoundPage />;
 

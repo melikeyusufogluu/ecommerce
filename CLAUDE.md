@@ -7,13 +7,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Next.js version
 
 This project runs Next.js 16.4 with React 19.3, and its APIs differ from older Next.js versions. Before writing framework code, read the bundled docs in `node_modules/next/dist/docs/` (`01-app/`, `03-architecture/`, and so on). In particular:
+
 - Route `params` is a `Promise` and must be awaited, in both pages and route handlers.
 - Layouts use the global `LayoutProps<"/">` type helper.
 - `next.config.ts` turns on `cacheComponents`, `partialPrefetching` and `experimental.agentFeedback`, and loads Tailwind v4 through a Turbopack CSS rule (`@tailwindcss/turbopack`). There is no PostCSS config.
 
 ## Commands
 
-- `npm run dev`: start the dev server at http://localhost:3000.
+- `npm run dev`: start the dev server at http://process.env.NEXT_PUBLIC_SITE_URL.
 - `npm run build`: production build. This also type-checks the code.
 - `npm run start`: serve the production build.
 - `npm run lint`: run ESLint 9 (flat config in `eslint.config.mjs`, using `eslint-config-next`).
